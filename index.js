@@ -1,4 +1,4 @@
-const BACKGROUND = "#181818";
+const BACKGROUND = "#181818";    
 const FOREGROUND = "#FF00FF";
 const FPS = 60;
 
@@ -19,7 +19,7 @@ console.log(ctx);
 // function to clear the "canvas" on each frame
 function clear() {
     ctx.fillStyle = BACKGROUND;
-    ctx.fillRect(0, 0, game.width, game.height);    
+    ctx.fillRect(0, 0, game.width, game.height);
 }
 
 function point({ x, y }) {
@@ -42,19 +42,27 @@ function project({ x, y, z }) {
     }
 }
 
-const pos = { x: 0.5, y: 0, z: 1 };
-const center = { x: 0, y: 0, z: 1 };
-const dx = 0;
-const dy = 0;
 let dz = 0;
 function frame() {
+    clear();
+
     const dt = 1/FPS;
     dz += 1*dt;
-    pos.z = 1 + dz;
-    clear();
     
-    point(screen(project(center)))
-    point(screen(project(pos)))
+    point(screen(project({ x: 0, y: 0, z: 1 })))
+
+    // face 1
+    point(screen(project({ x: +0.5, y: 0.5, z: 0.25 + dz })))
+    point(screen(project({ x: -0.5, y: 0.5, z: 0.25 + dz })))
+    point(screen(project({ x: +0.5, y: -0.5, z: 0.25 + dz })))
+    point(screen(project({ x: -0.5, y: -0.5, z: 0.25 + dz })))
+
+    // face 2
+    point(screen(project({ x: +0.5, y: 0.5, z: -0.25 + dz })))
+    point(screen(project({ x: -0.5, y: 0.5, z: -0.25 + dz })))
+    point(screen(project({ x: +0.5, y: -0.5, z: -0.25 + dz })))
+    point(screen(project({ x: -0.5, y: -0.5, z: -0.25 + dz })))
+    
 
     setTimeout(frame, 1/FPS*1000);
 }
